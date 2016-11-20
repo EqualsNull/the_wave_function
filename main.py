@@ -20,7 +20,7 @@ varying vec2 v_position;
 Specify the parameters here.
 **********************************************************/
 const float z_offset = 1.;  // (z+z_offset)/z_max should be in [0,1]
-const float z_max = 2.;
+const float z_max = 2.0;
 const float x_scale = 5.;  // x is between -x_scale and +x_scale
 const float y_scale = 5.; // y is between -y_scale and +y_scale
 const float t_scale = 5.; // scale for the time
