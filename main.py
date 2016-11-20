@@ -42,7 +42,6 @@ float f(float x, float y, float t) {
     /*********************************************************/
 
 }
-
 vec4 jet(float x) {
     vec3 a, b;
     float c;
