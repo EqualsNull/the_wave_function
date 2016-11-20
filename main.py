@@ -19,8 +19,8 @@ varying vec2 v_position;
 /**********************************************************
 Specify the parameters here.
 **********************************************************/
-const float z_offset = 1.;  // (z+z_offset)/z_max should be in [0,1]
-const float z_max = 2.0;
+const float z_offset = 1.0;  // (z+z_offset)/z_max should be in [0,1]
+const float z_max = 2.;
 const float x_scale = 5.;  // x is between -x_scale and +x_scale
 const float y_scale = 5.; // y is between -y_scale and +y_scale
 const float t_scale = 5.; // scale for the time
@@ -35,9 +35,9 @@ float f(float x, float y, float t) {
     /**********************************************************
     Write your function below.
     **********************************************************/
-    float trig = 1 - cos(t);
-    float k = .25 * tan(t);
-    return (cos(x * t) - k)*(sin(y * t) + k);
+
+    float k = .25*cos(t);
+    return (cos(x)+k)*(sin(y)-k);
 
     /*********************************************************/
 
@@ -57,20 +57,19 @@ vec4 jet(float x) {
     } else if (x < 0.89) {
         a = vec3(0.85, 1, 0.04);
         b = vec3(0.96, 0.7, 0);
-        c = (cos(x) - 0.64) / (0.89 - 0.64);
+        c = (x - 0.64) / (0.89 - 0.64);
     } else {
         a = vec3(0.96, 0.7, 0);
         b = vec3(0.5, 0, 0);
         c = (x - 0.89) / (1.0 - 0.89);
     }
-
     return vec4(mix(a, b, c), 1.0);
 }
 
 void main() {
     vec2 pos = v_position;
     float z = f(x_scale * pos.x, y_scale * pos.y, t_scale * u_time);
-    gl_FragColor = jet((z + z_offset) / (z_max));
+    gl_FragColor = jet((z + z_offset + 1/(2*cos(u_time))) / (z_max));
 }
 """
 
