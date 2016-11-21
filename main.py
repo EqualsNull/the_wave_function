@@ -19,11 +19,12 @@ varying vec2 v_position;
 /**********************************************************
 Specify the parameters here.
 **********************************************************/
-const float z_offset = 1.;  // (z+z_offset)/z_max should be in [0,1]
+const float z_offset = 1.5;  // (z+z_offset)/z_max should be in [0,1]
 const float z_max = 2.;
-const float x_scale = 5.;  // x is between -x_scale and +x_scale
-const float y_scale = 5.; // y is between -y_scale and +y_scale
+const float x_scale = 3.;  // x is between -x_scale and +x_scale
+const float y_scale = 3.; // y is between -y_scale and +y_scale
 const float t_scale = 5.; // scale for the time
+const float amplitude = 0.25;
 /*********************************************************/
 
 float f(float x, float y, float t) {
@@ -36,8 +37,17 @@ float f(float x, float y, float t) {
     Write your function below.
     **********************************************************/
 
-    float k = .25*cos(t);
-    return (cos(x)+k)*(sin(y)-k);
+    float k = pow(cos(t*490), 2)/(M_PI);
+
+    float i1 = cos(t/2)*0 + 1;
+    float j1 = sin(t/2)*0;
+
+    float i2 = -cos(t/2)*0 - 1;
+    float j2 = -sin(t/2)*0;
+
+    return ( ( ( pow(x-i1, 2) + pow(y-j1, 2) )/1.5
+            *  (pow(x-i2, 2) + pow(y-j2, 2))/1.5
+            + 0)/2);
 
     /*********************************************************/
 
@@ -69,7 +79,7 @@ vec4 jet(float x) {
 void main() {
     vec2 pos = v_position;
     float z = f(x_scale * pos.x, y_scale * pos.y, t_scale * u_time);
-    gl_FragColor = jet((z + z_offset) / (z_max));
+    gl_FragColor = (jet((z + z_offset) / (z_max))*2);
 }
 """
 
